@@ -5,4 +5,4 @@ set -e
 set -x
 
 # windows
-GOOS=windows go build -o release/windows/amd64/drone-migrate.exe
+GOOS=windows go build -o release/windows/amd64/drone-email.exe
