@@ -38,7 +38,7 @@ docker: Error response from daemon: Container command
 ```
 
 ### Example
-Execute from the working directory:
+Execute from the working directory test:
 
 ```sh
 docker run --rm \
