@@ -1,0 +1,56 @@
+pipeline:
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: Code Test
+        identifier: Pull_and_Push
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: false
+          platform:
+            os: Windows
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: GitClone
+                  name: GitClone_1
+                  identifier: GitClone_1
+                  spec:
+                    connectorRef: droneawsoidc
+                    repoName: drone-email
+                    cloneDirectory: /harness/
+                    build:
+                      type: branch
+                      spec:
+                        branch: main
+              - step:
+                  type: Run
+                  name: Run_1
+                  identifier: Run_1
+                  spec:
+                    connectorRef: architdocker
+                    image: golang:latest
+                    shell: Sh
+                    command: ./build.sh
+              - step:
+                  type: BuildAndPushDockerRegistry
+                  name: BuildAndPushDockerRegistry_1
+                  identifier: BuildAndPushDockerRegistry_1
+                  spec:
+                    connectorRef: emailtestdocker
+                    repo: architmallik/email-test
+                    tags:
+                      - latest
+                    dockerfile: docker/Dockerfile.windows
+          caching:
+            enabled: false
+            paths: []
+  projectIdentifier: architpipeline
+  identifier: droneemailgitexp
+  name: drone-Email-GitExp
